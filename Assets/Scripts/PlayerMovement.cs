@@ -11,14 +11,11 @@ public class PlayerMovement : MonoBehaviour
     public Transform cameraTransform;
 
     private InputAction moveAction;
-    //private InputAction lookAction;
     private InputAction jumpAction;
 
     [SerializeField] private float moveSpeed = 6;
     [SerializeField] private float jumpForce = 5;
-    //[SerializeField] private float mouseSensitivity = 3;
 
-    private float xRotation;
     private float fallSpeed;
 
     void Awake()
@@ -29,28 +26,10 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
 
         moveAction = playerInput.actions["Move"];
-        //lookAction = playerInput.actions["Look"];
         jumpAction = playerInput.actions["Jump"];
     }
 
     void Update()
-    {
-        //Rotation();
-        Movement();
-    }
-
-    //void Rotation()
-    //{
-    //    Vector2 look = mouseSensitivity * Time.deltaTime * lookAction.ReadValue<Vector2>();
-
-    //    xRotation -= look.y;
-    //    xRotation = Mathf.Clamp(xRotation, -90, 90);
-    //    cameraTransform.localRotation = Quaternion.Euler(xRotation, 0, 0);
-
-    //    transform.Rotate(Vector3.up * look.x);
-    //}
-
-    void Movement()
     {
         Vector2 move = moveAction.ReadValue<Vector2>();
 
