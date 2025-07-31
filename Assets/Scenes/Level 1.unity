@@ -752,6 +752,7 @@ GameObject:
   - component: {fileID: 971286749}
   - component: {fileID: 971286750}
   - component: {fileID: 971286751}
+  - component: {fileID: 971286752}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -848,7 +849,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1231679780}
+  - {fileID: 978715303}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &971286749
@@ -866,7 +867,6 @@ MonoBehaviour:
   cameraTransform: {fileID: 1231679780}
   moveSpeed: 6
   jumpForce: 5
-  mouseSensitivity: 3
 --- !u!114 &971286750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -922,6 +922,53 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &971286752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971286743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9cb92dc748df884480f79158fe2e2bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 0.1
+  rightScreenThreshold: 0.6
+  cameraHolder: {fileID: 978715303}
+--- !u!1 &978715302
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 978715303}
+  m_Layer: 0
+  m_Name: CameraHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &978715303
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978715302}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1231679780}
+  m_Father: {fileID: 971286748}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1231679777
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,7 +1061,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 971286748}
+  m_Father: {fileID: 978715303}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1231679781
 MonoBehaviour:
@@ -1072,9 +1119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c0c53c8b3cfaeb4686e32facc38a2c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivity: 0.1
-  cameraTransform: {fileID: 1231679780}
-  rightScreenThreshold: 0.6
 --- !u!1 &1687378646
 GameObject:
   m_ObjectHideFlags: 0
