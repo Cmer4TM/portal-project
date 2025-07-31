@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider), typeof(PlayerInput))]
+[RequireComponent(typeof(CharacterController), typeof(CapsuleCollider), typeof(PlayerInput))]
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody rb;
-    private CapsuleCollider capsuleCollider;
+    private const float GRAVITY = -9.81f;
+
     private PlayerInput playerInput;
+    private CharacterController controller;
     public Transform cameraTransform;
 
     private InputAction moveAction;
@@ -15,16 +16,17 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float moveSpeed = 6;
     [SerializeField] private float jumpForce = 5;
-    [SerializeField] private int mouseSensitivity = 100;
+    [SerializeField] private float mouseSensitivity = 3;
 
     private float xRotation;
-    private bool isGrounded;
+    private float fallSpeed;
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        capsuleCollider = GetComponent<CapsuleCollider>();
+        Application.targetFrameRate = 120;
+
         playerInput = GetComponent<PlayerInput>();
+        controller = GetComponent<CharacterController>();
 
         moveAction = playerInput.actions["Move"];
         lookAction = playerInput.actions["Look"];
@@ -33,29 +35,44 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Vector2 mouse = mouseSensitivity * Time.deltaTime * lookAction.ReadValue<Vector2>();
+        Rotation();
+        Movement();
+    }
 
-        xRotation -= mouse.y;
+    void Rotation()
+    {
+        Vector2 look = mouseSensitivity * Time.deltaTime * lookAction.ReadValue<Vector2>();
+
+        xRotation -= look.y;
         xRotation = Mathf.Clamp(xRotation, -90, 90);
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0, 0);
 
-        transform.Rotate(Vector3.up * mouse.x);
-
-        if (jumpAction.triggered && isGrounded)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
+        transform.Rotate(Vector3.up * look.x);
     }
 
-    void FixedUpdate()
+    void Movement()
     {
-        float maxDistance = capsuleCollider.bounds.extents.y + 0.01f;
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, out _, maxDistance);
-
         Vector2 move = moveAction.ReadValue<Vector2>();
-        Vector3 moveDirection = transform.right * move.x + transform.forward * move.y;
-        
-        Vector3 newPos = rb.position + moveSpeed * Time.fixedDeltaTime * moveDirection;
-        rb.MovePosition(newPos);
+
+        if (controller.isGrounded)
+        {
+            if (jumpAction.triggered)
+            {
+                fallSpeed = jumpForce;
+            }
+            else
+            {
+                fallSpeed = -Mathf.Sqrt(-GRAVITY);
+            }
+        }
+        else
+        {
+            fallSpeed += GRAVITY * Time.deltaTime;
+        }
+
+        Vector3 direction = transform.right * move.x + transform.forward * move.y;
+        direction = moveSpeed * Time.deltaTime * direction.normalized;
+
+        controller.Move(direction + fallSpeed * Time.deltaTime * Vector3.up);
     }
 }
