@@ -1,39 +1,52 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using TMPro;
 
 public class MainMenuUI : MonoBehaviour
 {
+    public GameObject mainButtonsPanel;
     public GameObject settingsPanel;
 
-    void Start()
+    public void Start()
     {
-        
-    }
-
-    public void ContinueGame()
-    {
-        
-    }
-
-    public void NewGame()
-    {
-        
+        ShowMainButtons();
     }
 
     public void OpenSettings()
     {
-        settingsPanel.SetActive(true);
+        if (settingsPanel != null)
+            settingsPanel.SetActive(true);
+
+        if (mainButtonsPanel != null)
+            mainButtonsPanel.SetActive(false);
     }
 
     public void CloseSettings()
     {
-        settingsPanel.SetActive(false);
+        if (settingsPanel != null)
+            settingsPanel.SetActive(false);
+
+        if (mainButtonsPanel != null)
+            mainButtonsPanel.SetActive(true);
+    }
+
+    public void StartNewGame(string sceneName)
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
 
     public void ExitGame()
     {
         Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
+
+    private void ShowMainButtons()
+    {
+        if (mainButtonsPanel != null)
+            mainButtonsPanel.SetActive(true);
+
+        if (settingsPanel != null)
+            settingsPanel.SetActive(false);
     }
 }
