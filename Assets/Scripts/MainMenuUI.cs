@@ -1,47 +1,37 @@
-// MainMenuUI.cs
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
     [Header("Panels")]
-    public GameObject mainButtonsPanel;
-    public GameObject settingsPanel;
+    [SerializeField] private GameObject mainButtonsPanel;
+    [SerializeField] private GameObject settingsPanel;
 
     [Header("Sliders")]
-    public Slider brightnessSlider;
-    public Slider volumeSlider;
+    [SerializeField] private Slider brightnessSlider;
+    [SerializeField] private Slider volumeSlider;
 
-    private void Start()
-    {
-        ShowMainButtons();
-
-        if (SettingsManager.Instance != null)
-        {
-            SettingsManager.Instance.AssignSliders(brightnessSlider, volumeSlider);
-        }
-    }
+    private void Start() => ShowPanel(mainButtonsPanel, true);
 
     public void OpenSettings()
     {
-        settingsPanel?.SetActive(true);
-        mainButtonsPanel?.SetActive(false);
+        ShowPanel(settingsPanel, true);
+        ShowPanel(mainButtonsPanel, false);
 
-        if (SettingsManager.Instance != null)
-        {
-            SettingsManager.Instance.AssignSliders(brightnessSlider, volumeSlider);
-        }
+        var manager = Object.FindFirstObjectByType<SettingsManager>();
+        manager?.AssignSliders(brightnessSlider, volumeSlider);
     }
 
     public void CloseSettings()
     {
-        settingsPanel?.SetActive(false);
-        mainButtonsPanel?.SetActive(true);
+        ShowPanel(settingsPanel, false);
+        ShowPanel(mainButtonsPanel, true);
     }
 
     public void StartNewGame(string sceneName)
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(sceneName);
     }
 
     public void ExitGame()
@@ -52,9 +42,9 @@ public class MainMenuUI : MonoBehaviour
 #endif
     }
 
-    private void ShowMainButtons()
+    private void ShowPanel(GameObject panel, bool visible)
     {
-        mainButtonsPanel?.SetActive(true);
-        settingsPanel?.SetActive(false);
+        if (panel != null)
+            panel.SetActive(visible);
     }
 }
