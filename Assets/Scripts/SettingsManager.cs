@@ -3,60 +3,42 @@ using UnityEngine.UI;
 
 public class SettingsManager : MonoBehaviour
 {
-    [Header("UI Overlay")]
-    [SerializeField] private Image brightnessOverlay;
+    public GameObject mainButtonsPanel;
+    public GameObject settingsPanel;
+
+    public Slider brightnessSlider;
+    public Slider volumeSlider;
+
+    public Image brightnessOverlay;
 
     private const string BrightnessKey = "Brightness";
     private const string VolumeKey = "Volume";
 
     private void Awake()
     {
-        ApplyBrightness(PlayerPrefs.GetFloat(BrightnessKey, 1f));
-        ApplyVolume(PlayerPrefs.GetFloat(VolumeKey, 1f));
+        brightnessSlider.value = PlayerPrefs.GetFloat(BrightnessKey, 1);
+        volumeSlider.value = PlayerPrefs.GetFloat(VolumeKey, 1);
+    }
+
+    public void ToggleSettings(bool active)
+    {
+        mainButtonsPanel.SetActive(active == false);
+        settingsPanel.SetActive(active);
     }
 
     public void SetBrightness(float value)
     {
-        value = Mathf.Clamp01(value);
-        ApplyBrightness(value);
+        brightnessOverlay.color = new(0, 0, 0, Mathf.Lerp(0, 0.6f, 1 - value));
+
         PlayerPrefs.SetFloat(BrightnessKey, value);
         PlayerPrefs.Save();
     }
 
     public void SetVolume(float value)
     {
-        value = Mathf.Clamp01(value);
-        ApplyVolume(value);
+        AudioListener.volume = value;
+
         PlayerPrefs.SetFloat(VolumeKey, value);
         PlayerPrefs.Save();
-    }
-
-    private void ApplyBrightness(float value)
-    {
-        // 0 = яскраво, 0.6 = найтемніше
-        var color = brightnessOverlay.color;
-        color.a = Mathf.Lerp(0f, 0.6f, 1f - value);
-        brightnessOverlay.color = color;
-    }
-
-    private void ApplyVolume(float value) => AudioListener.volume = value;
-
-    public void AssignSliders(Slider brightnessSlider, Slider volumeSlider)
-    {
-        if (brightnessSlider)
-        {
-            float brightness = PlayerPrefs.GetFloat(BrightnessKey, 1f);
-            brightnessSlider.SetValueWithoutNotify(brightness);
-            brightnessSlider.onValueChanged.RemoveAllListeners();
-            brightnessSlider.onValueChanged.AddListener(SetBrightness);
-        }
-
-        if (volumeSlider)
-        {
-            float volume = PlayerPrefs.GetFloat(VolumeKey, 1f);
-            volumeSlider.SetValueWithoutNotify(volume);
-            volumeSlider.onValueChanged.RemoveAllListeners();
-            volumeSlider.onValueChanged.AddListener(SetVolume);
-        }
     }
 }
