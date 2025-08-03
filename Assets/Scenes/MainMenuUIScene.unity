@@ -758,11 +758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 232246a1a12dccb4b80b662aa3c2783b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brightness: 1
-  volume: 1
-  brightnessOverlay: {fileID: 0}
-  brightnessSlider: {fileID: 0}
-  volumeSlider: {fileID: 0}
+  brightnessOverlay: {fileID: 1513248655}
 --- !u!4 &642194142
 Transform:
   m_ObjectHideFlags: 0

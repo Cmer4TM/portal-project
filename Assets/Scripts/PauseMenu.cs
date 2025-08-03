@@ -1,58 +1,59 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
     [Header("Panels")]
-    public GameObject pauseMenuPanel;    // Меню паузи
-    public GameObject settingsPanel;     // Панель налаштувань
+    public GameObject pauseMenuPanel;
+    public GameObject settingsPanel;
+
+    [Header("Sliders")]
+    public Slider brightnessSlider;
+    public Slider volumeSlider;
 
     private bool isPaused = false;
 
-    void Start()
+    private void Start()
     {
-        if (pauseMenuPanel != null)
-            pauseMenuPanel.SetActive(false);
-
-        if (settingsPanel != null)
-            settingsPanel.SetActive(false);
+        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
+        if (settingsPanel != null) settingsPanel.SetActive(false);
     }
-
     public void TogglePause()
     {
         isPaused = !isPaused;
-
-        if (isPaused)
-        {
-            Time.timeScale = 0f;
-            if (pauseMenuPanel != null) pauseMenuPanel.SetActive(true);
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
-            if (settingsPanel != null) settingsPanel.SetActive(false);
-        }
+        Time.timeScale = isPaused ? 0f : 1f;
+        pauseMenuPanel?.SetActive(isPaused);
+        settingsPanel?.SetActive(false);
     }
 
     public void ResumeGame()
     {
         isPaused = false;
         Time.timeScale = 1f;
-        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
-        if (settingsPanel != null) settingsPanel.SetActive(false);
+        pauseMenuPanel?.SetActive(false);
+        settingsPanel?.SetActive(false);
     }
 
     public void OpenSettings()
     {
-        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
-        if (settingsPanel != null) settingsPanel.SetActive(true);
+        settingsPanel?.SetActive(true);
+        pauseMenuPanel?.SetActive(false);
+
+        if (SettingsManager.Instance != null)
+            SettingsManager.Instance.AssignSliders(brightnessSlider, volumeSlider);
     }
 
     public void CloseSettings()
     {
-        if (settingsPanel != null) settingsPanel.SetActive(false);
-        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(true);
+        settingsPanel?.SetActive(false);
+        pauseMenuPanel?.SetActive(true);
+    }
+
+    public void ExitToMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenuUIScene");
     }
 
     public void ExitToDesktop()
@@ -61,11 +62,5 @@ public class PauseMenu : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
-    }
-
-    public void ExitToMenu()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenuUIScene"); // заміни на назву своєї сцени
     }
 }

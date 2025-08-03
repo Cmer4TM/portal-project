@@ -1,31 +1,42 @@
+// MainMenuUI.cs
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
+    [Header("Panels")]
     public GameObject mainButtonsPanel;
     public GameObject settingsPanel;
 
-    public void Start()
+    [Header("Sliders")]
+    public Slider brightnessSlider;
+    public Slider volumeSlider;
+
+    private void Start()
     {
         ShowMainButtons();
+
+        if (SettingsManager.Instance != null)
+        {
+            SettingsManager.Instance.AssignSliders(brightnessSlider, volumeSlider);
+        }
     }
 
     public void OpenSettings()
     {
-        if (settingsPanel != null)
-            settingsPanel.SetActive(true);
+        settingsPanel?.SetActive(true);
+        mainButtonsPanel?.SetActive(false);
 
-        if (mainButtonsPanel != null)
-            mainButtonsPanel.SetActive(false);
+        if (SettingsManager.Instance != null)
+        {
+            SettingsManager.Instance.AssignSliders(brightnessSlider, volumeSlider);
+        }
     }
 
     public void CloseSettings()
     {
-        if (settingsPanel != null)
-            settingsPanel.SetActive(false);
-
-        if (mainButtonsPanel != null)
-            mainButtonsPanel.SetActive(true);
+        settingsPanel?.SetActive(false);
+        mainButtonsPanel?.SetActive(true);
     }
 
     public void StartNewGame(string sceneName)
@@ -43,10 +54,7 @@ public class MainMenuUI : MonoBehaviour
 
     private void ShowMainButtons()
     {
-        if (mainButtonsPanel != null)
-            mainButtonsPanel.SetActive(true);
-
-        if (settingsPanel != null)
-            settingsPanel.SetActive(false);
+        mainButtonsPanel?.SetActive(true);
+        settingsPanel?.SetActive(false);
     }
 }

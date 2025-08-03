@@ -2238,9 +2238,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1778471855}
+      - m_Target: {fileID: 1657579763}
         m_TargetAssemblyTypeName: PauseSettingsConnector, Assembly-CSharp
-        m_MethodName: SetBrightness
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2341,9 +2341,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1778471855}
+      - m_Target: {fileID: 11400000, guid: 3af3f8b3d4f9e754fa13da04730b013e, type: 2}
         m_TargetAssemblyTypeName: PauseSettingsConnector, Assembly-CSharp
-        m_MethodName: SetVolume
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3146,6 +3146,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuPanel: {fileID: 944748840}
   settingsPanel: {fileID: 1394852564}
+  brightnessSlider: {fileID: 1032418140}
+  volumeSlider: {fileID: 1035704644}
 --- !u!4 &1657579765
 Transform:
   m_ObjectHideFlags: 0

@@ -6,52 +6,60 @@ public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance;
 
-    public float brightness = 0.5f;
-    public float volume = 1f;
+    private Image brightnessOverlay;
+    private float brightness = 0.5f;
+    private float volume = 1f;
 
-    public Image brightnessOverlay;
-    public Slider brightnessSlider;
-    public Slider volumeSlider;
+    private Slider brightnessSlider;
+    private Slider volumeSlider;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-
-            brightness = PlayerPrefs.GetFloat("Brightness", 0.5f);
-            volume = PlayerPrefs.GetFloat("Volume", 1f);
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
-    }
 
-    private void Start()
-    {
-        ApplyBrightness();
-        ApplyVolume();
-        TryReconnectSliders();
-    }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
 
-    private void OnEnable()
-    {
+        brightness = PlayerPrefs.GetFloat("Brightness", 0.5f);
+        volume = PlayerPrefs.GetFloat("Volume", 1f);
+
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        if (Instance == this)
+            SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        FindOverlayAgain();
-        TryReconnectSliders();
+        TryFindOverlay();
         ApplyBrightness();
         ApplyVolume();
+    }
+
+    private void TryFindOverlay()
+    {
+        GameObject overlayObj = GameObject.Find("BrightnessOverlay");
+
+        if (overlayObj != null)
+        {
+            brightnessOverlay = overlayObj.GetComponent<Image>();
+
+            if (brightnessOverlay == null)
+            {
+                Debug.LogWarning("BrightnessOverlay found, but it doesn't have an Image component.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("BrightnessOverlay not found in the scene.");
+        }
     }
 
     public void SetBrightness(float value)
@@ -83,55 +91,29 @@ public class SettingsManager : MonoBehaviour
         AudioListener.volume = volume;
     }
 
-    private void FindOverlayAgain()
+    public void AssignSliders(Slider newBrightnessSlider, Slider newVolumeSlider)
     {
-        if (brightnessOverlay == null)
-        {
-            GameObject overlay = GameObject.Find("BrightnessOverlay");
-            if (overlay != null)
-                brightnessOverlay = overlay.GetComponent<Image>();
-        }
-    }
-
-    private void TryReconnectSliders()
-    {
-        Debug.Log("🔁 Reconnecting sliders...");
-
-        var bsObj = GameObject.Find("BrightnessSlider");
-        if (bsObj != null)
-        {
-            brightnessSlider = bsObj.GetComponent<Slider>();
+        if (brightnessSlider != null)
             brightnessSlider.onValueChanged.RemoveAllListeners();
+        if (volumeSlider != null)
+            volumeSlider.onValueChanged.RemoveAllListeners();
+
+        brightnessSlider = newBrightnessSlider;
+        volumeSlider = newVolumeSlider;
+
+        if (brightnessSlider != null)
+        {
             brightnessSlider.value = brightness;
             brightnessSlider.onValueChanged.AddListener(SetBrightness);
-            Debug.Log("✅ Brightness slider connected");
-        }
-        else
-        {
-            Debug.LogWarning("⚠️ BrightnessSlider not found");
         }
 
-        var vsObj = GameObject.Find("VolumeSlider");
-        if (vsObj != null)
+        if (volumeSlider != null)
         {
-            volumeSlider = vsObj.GetComponent<Slider>();
-            volumeSlider.onValueChanged.RemoveAllListeners();
             volumeSlider.value = volume;
             volumeSlider.onValueChanged.AddListener(SetVolume);
-            Debug.Log("✅ Volume slider connected");
         }
-        else
-        {
-            Debug.LogWarning("⚠️ VolumeSlider not found");
-        }
-    }
 
-    public void ResetSettings()
-    {
-        SetBrightness(0.5f);
-        SetVolume(1f);
-
-        if (brightnessSlider != null) brightnessSlider.value = brightness;
-        if (volumeSlider != null) volumeSlider.value = volume;
+        ApplyBrightness();
+        ApplyVolume();
     }
 }
