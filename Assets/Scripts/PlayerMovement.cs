@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 
 [RequireComponent(typeof(CharacterController), typeof(CapsuleCollider), typeof(PlayerInput))]
 public class PlayerMovement : MonoBehaviour
@@ -9,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInput playerInput;
     private CharacterController controller;
     public Transform cameraTransform;
+    public GameObject HUD;
 
     private InputAction moveAction;
     private InputAction jumpAction;
@@ -53,5 +55,24 @@ public class PlayerMovement : MonoBehaviour
         direction = moveSpeed * Time.deltaTime * direction.normalized;
 
         controller.Move(direction + fallSpeed * Time.deltaTime * Vector3.up);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        PlayableDirector director = other.GetComponent<PlayableDirector>();
+        director.stopped += CutsceneFinish;
+
+        playerInput.enabled = false;
+        HUD.SetActive(false);
+
+        director.Play();
+    }
+
+    private void CutsceneFinish(PlayableDirector director)
+    {
+        playerInput.enabled = true;
+        HUD.SetActive(true);
+
+        director.GetComponent<Collider>().isTrigger = false;
     }
 }
