@@ -5,10 +5,11 @@ using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-[RequireComponent(typeof(PlayerInput), typeof(PlayableDirector))]
+[RequireComponent(typeof(CharacterController), typeof(PlayableDirector))]
 public class PlayerCutScenes : MonoBehaviour
 {
     private PlayerInput playerInput;
+    private CharacterController controller;
     private PlayableDirector director;
 
     public TimelineAsset[] timelines;
@@ -16,35 +17,45 @@ public class PlayerCutScenes : MonoBehaviour
     public UnityEvent<bool> canInteract;
 
     private InputAction interactAction;
-    private string triggerName;
+    private GameObject trigger;
 
     void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        controller = GetComponent<CharacterController>();
         director = GetComponent<PlayableDirector>();
 
         director.stopped += FinishCutscene;
 
         interactAction = playerInput.actions["Interact"];
-
-        StartCutscene("GameStart");
     }
+
+    private void Start() => StartCutscene("GameStart");
 
     private void Update()
     {
-        if (interactAction.triggered && triggerName != null)
+        if (interactAction.triggered)
         {
-            StartCutscene(triggerName);
+            if (trigger)
+            {
+                StartCutscene(trigger.name);
+            }
+
+            if (director.state == PlayState.Paused)
+            {
+                canInteract?.Invoke(false);
+                director.Resume();
+            }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        trigger = other.gameObject;
+
         if (other.CompareTag("Interactable"))
         {
-            triggerName = other.name;
             canInteract?.Invoke(true);
-
             return;
         }
 
@@ -57,11 +68,11 @@ public class PlayerCutScenes : MonoBehaviour
     {
         if (timelines.First(timeline => timeline.name == triggerName) is TimelineAsset timeline)
         {
-            this.triggerName = null;
+            trigger = null;
 
             director.playableAsset = timeline;
 
-            playerInput.enabled = false;
+            controller.enabled = false;
             HUD.SetActive(false);
 
             director.Play();
@@ -70,9 +81,32 @@ public class PlayerCutScenes : MonoBehaviour
 
     private void FinishCutscene(PlayableDirector director)
     {
-        playerInput.enabled = true;
+        controller.enabled = true;
         HUD.SetActive(true);
 
-        director.gameObject.SetActive(false);
+        Destroy(trigger);
+    }
+
+    public void WaitForInteract()
+    {
+        if (director.state != PlayState.Playing)
+        {
+            return;
+        }
+
+        director.Pause();
+        canInteract?.Invoke(true);
+    }
+
+    public void WaitForText(string text)
+    {
+        if (director.state != PlayState.Playing)
+        {
+            return;
+        }
+
+        director.Pause();
+
+        // Опишу потом
     }
 }

@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (controller.enabled == false) return;
+
         Vector2 move = moveAction.ReadValue<Vector2>();
 
         if (controller.isGrounded)
