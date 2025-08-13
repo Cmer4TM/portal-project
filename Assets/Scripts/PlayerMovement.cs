@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private InputAction moveAction;
     private InputAction jumpAction;
 
-    [SerializeField] private float moveSpeed = 6;
+    [SerializeField] private float moveSpeed = 4;
     [SerializeField] private float jumpForce = 5;
 
     private float fallSpeed;

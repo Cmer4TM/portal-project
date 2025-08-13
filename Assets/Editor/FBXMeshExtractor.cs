@@ -83,7 +83,11 @@ public class FBXMeshExtractor
                 if (newMesh != null)
                 {
                     mesh.sharedMesh = newMesh;
-                    EditorUtility.SetDirty(mesh);
+
+                    if (mesh.TryGetComponent(out MeshCollider collider))
+                    {
+                        collider.sharedMesh = newMesh;
+                    }
                 }
             }
         }
