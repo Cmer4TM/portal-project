@@ -5,6 +5,7 @@ public class SettingsManager : MonoBehaviour
 {
     public GameObject mainButtonsPanel;
     public GameObject settingsPanel;
+    public GameObject title;
 
     public Slider brightnessSlider;
     public Slider volumeSlider;
@@ -22,6 +23,7 @@ public class SettingsManager : MonoBehaviour
 
     public void ToggleSettings(bool active)
     {
+        if (title) title.SetActive(active == false);
         mainButtonsPanel.SetActive(active == false);
         settingsPanel.SetActive(active);
     }

@@ -24,9 +24,9 @@ public class SceneManager : MonoBehaviour
         }
     }
 
-    public void LoadScene(string levelName)
+    public void LoadScene(string sceneName)
     {
-        AsyncOperation loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(levelName);
+        AsyncOperation loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
         StartCoroutine(LoadingUpdate(loading));
     }
 

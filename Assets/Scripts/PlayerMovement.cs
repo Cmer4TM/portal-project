@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private InputAction jumpAction;
 
     [SerializeField] private float moveSpeed = 4;
-    [SerializeField] private float jumpForce = 5;
+    [SerializeField] private float jumpForce = 4;
 
     private float fallSpeed;
 
@@ -53,7 +53,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector3 direction = transform.right * move.x + transform.forward * move.y;
-        direction = moveSpeed * Time.deltaTime * direction.normalized;
+        if (direction.magnitude > 1) direction.Normalize();
+        direction *= moveSpeed * Time.deltaTime;
 
         controller.Move(direction + fallSpeed * Time.deltaTime * Vector3.up);
     }
