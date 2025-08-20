@@ -6,7 +6,6 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayableDirector), typeof(PlayerInput))]
 public class PlayerCutScenes : MonoBehaviour
@@ -15,54 +14,40 @@ public class PlayerCutScenes : MonoBehaviour
     public GameObject HUD;
     public UnityEvent<bool> canInteract;
 
-    [Header("Text UI")]
-    [SerializeField] CanvasGroup textScreen;
-    [SerializeField] TMP_Text textLabel;
-    [SerializeField] float textLifetime = 3f;
+    public TMP_Text textLabel;
+    [SerializeField] float textLifetime = 3;
     [SerializeField] float fadeIn = 0.6f;
     [SerializeField] float fadeOut = 0.6f;
 
-    [Header("Skip UI")]
-    [SerializeField] Button skipButton;
-    [SerializeField] float skipVisibleSeconds = 5f;
-    [SerializeField] int skipSortingOrder = 1200;
+    public GameObject skipButton;
 
-    PlayerInput playerInput;
     CharacterController controller;
     PlayableDirector director;
 
     InputAction interactAction;
     GameObject trigger;
-    Coroutine textRoutine, skipRoutine;
 
     void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
         controller = GetComponent<CharacterController>();
         director = GetComponent<PlayableDirector>();
-        director.stopped += FinishCutscene;
-        interactAction = playerInput.actions["Interact"];
 
-        if (textScreen)
-        {
-            textScreen.alpha = 0f;
-            textScreen.interactable = textScreen.blocksRaycasts = false;
-            textScreen.gameObject.SetActive(false);
-        }
-        if (skipButton)
-        {
-            skipButton.onClick.AddListener(SkipCutscene);
-            skipButton.gameObject.SetActive(false);
-        }
+        director.stopped += FinishCutscene;
+
+        interactAction = GetComponent<PlayerInput>().actions["Interact"];
     }
 
     void Start() => StartCutscene("GameStart");
 
     void Update()
     {
-        if (!interactAction.triggered) return;
+        if (interactAction.triggered == false) return;
 
-        if (trigger) { StartCutscene(trigger.name); return; }
+        if (trigger)
+        {
+            StartCutscene(trigger.name);
+            return;
+        }
 
         if (director.state == PlayState.Paused)
         {
@@ -74,127 +59,79 @@ public class PlayerCutScenes : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         trigger = other.gameObject;
-        if (other.CompareTag("Interactable")) { canInteract?.Invoke(true); return; }
+
+        if (other.CompareTag("Interactable"))
+        {
+            canInteract?.Invoke(true);
+            return;
+        }
+
         StartCutscene(other.name);
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject == trigger) trigger = null;
-        canInteract?.Invoke(false);
-    }
+    void OnTriggerExit(Collider other) => canInteract?.Invoke(false);
 
-    void StartCutscene(string key)
+    void StartCutscene(string triggerName)
     {
-        var tl = timelines.FirstOrDefault(t => t && t.name == key);
-        if (!tl) return;
+        TimelineAsset timeline = timelines.FirstOrDefault(timeline => timeline.name == triggerName);
+        if (timeline == null) return;
 
         trigger = null;
-        director.playableAsset = tl;
+        director.playableAsset = timeline;
 
         controller.enabled = false;
-        if (HUD) HUD.SetActive(false);
+        HUD.SetActive(false);
+        skipButton.SetActive(true);
 
         director.Play();
-        ShowSkipFor(skipVisibleSeconds);
     }
 
-    void FinishCutscene(PlayableDirector _)
+    void FinishCutscene(PlayableDirector director = null)
     {
         controller.enabled = true;
-        if (HUD) HUD.SetActive(true);
-        canInteract?.Invoke(false);
-        HideText();
-        HideSkip();
-        if (trigger) Destroy(trigger);
+        HUD.SetActive(true);
+        skipButton.SetActive(false);
+
+        Destroy(trigger);
     }
 
     public void WaitForInteract()
     {
-        if (director.state != PlayState.Playing) return;
         director.Pause();
         canInteract?.Invoke(true);
     }
+    public void WaitForInteract2() => Debug.Log("h");
 
-    public void WaitForText(string text)
+    public void WaitForText(string text) => StartCoroutine(RunText(text));
+
+    IEnumerator RunText(string text)
     {
-        if (!textScreen || !textLabel) return;
-        if (textRoutine != null) StopCoroutine(textRoutine);
-        textRoutine = StartCoroutine(RunText(text));
-    }
+        textLabel.text = text;
 
-    IEnumerator RunText(string s)
-    {
-        textLabel.text = s;
-        textScreen.alpha = 0f;
-        textScreen.gameObject.SetActive(true);
-        textScreen.interactable = textScreen.blocksRaycasts = false;
-
-        yield return FadeTo(1f, Mathf.Max(0.05f, fadeIn));
-        yield return new WaitForSecondsRealtime(textLifetime);
-        yield return FadeTo(0f, Mathf.Max(0.05f, fadeOut));
-
-        textScreen.gameObject.SetActive(false);
-        textRoutine = null;
+        yield return FadeTo(1, fadeIn);
+        yield return new WaitForSeconds(textLifetime);
+        yield return FadeTo(0, fadeOut);
     }
 
     IEnumerator FadeTo(float target, float duration)
     {
-        float start = textScreen.alpha;
-        float t = 0f;
-        while (t < duration)
+        float start = textLabel.alpha;
+        float time = 0;
+
+        while (time < duration)
         {
-            t += Time.unscaledDeltaTime;
-            textScreen.alpha = Mathf.Lerp(start, target, Mathf.SmoothStep(0f, 1f, t / duration));
+            time += Time.unscaledDeltaTime;
+            textLabel.alpha = Mathf.Lerp(start, target, time / duration);
             yield return null;
         }
-        textScreen.alpha = target;
     }
 
-    void ShowSkipFor(float seconds)
+    public void SkipCutscene()
     {
-        if (!skipButton) return;
-        var go = skipButton.gameObject;
-        go.SetActive(true);
-        var cv = go.GetComponent<Canvas>() ?? go.gameObject.AddComponent<Canvas>();
-        cv.overrideSorting = true;
-        cv.sortingOrder = skipSortingOrder;
-        if (!go.GetComponent<GraphicRaycaster>()) go.AddComponent<GraphicRaycaster>();
-        if (skipRoutine != null) StopCoroutine(skipRoutine);
-        skipRoutine = StartCoroutine(HideSkipAfter(seconds));
-    }
+        canInteract?.Invoke(false);
 
-    IEnumerator HideSkipAfter(float seconds)
-    {
-        yield return new WaitForSecondsRealtime(seconds);
-        HideSkip();
-        skipRoutine = null;
-    }
-
-    void HideSkip()
-    {
-        if (skipButton) skipButton.gameObject.SetActive(false);
-    }
-
-    void HideText()
-    {
-        if (!textScreen) return;
-        textScreen.alpha = 0f;
-        textScreen.interactable = textScreen.blocksRaycasts = false;
-        textScreen.gameObject.SetActive(false);
-    }
-
-    void SkipCutscene()
-    {
-        HideSkip();
-        if (skipRoutine != null) { StopCoroutine(skipRoutine); skipRoutine = null; }
-
-        double end = director.playableAsset is TimelineAsset ta ? ta.duration : director.duration;
-        if (end <= 0) end = 0.0001f;
-        director.time = end;
-        director.Evaluate();
         director.Pause();
-
-        FinishCutscene(director);
+        director.time = director.duration;
+        director.Resume();
     }
 }

@@ -9,7 +9,7 @@ public class CustomSignalReceiver : MonoBehaviour, INotificationReceiver
     [Serializable]
     public class StringSignalEntry
     {
-        public StringSignalEmitter signal;
+        public SignalAsset signal;
         public UnityEvent<string> onSignalReceived;
     }
 
@@ -29,9 +29,9 @@ public class CustomSignalReceiver : MonoBehaviour, INotificationReceiver
         {
             foreach (StringSignalEntry signalEntry in stringSignals)
             {
-                if (signalEntry.signal.asset == stringEmitter.asset)
+                if (signalEntry.signal == stringEmitter.asset)
                 {
-                    signalEntry.onSignalReceived?.Invoke(signalEntry.signal.parameter);
+                    signalEntry.onSignalReceived?.Invoke(stringEmitter.parameter);
                     return;
                 }
             }
