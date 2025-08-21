@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
+    public GameObject background;
     public GameObject pauseMenuPanel;
     public GameObject HUD;
 
     public void TogglePause(bool active)
     {
         Time.timeScale = active ? 0 : 1;
+        background.SetActive(active);
         pauseMenuPanel.SetActive(active);
         HUD.SetActive(active == false);
     }
