@@ -42,7 +42,7 @@ public class PlayerCutScenes : MonoBehaviour
     {
         if (interactAction.triggered)
         {
-            if (trigger) trigger.transform.parent.GetComponent<Animator>().Play(trigger.name);
+            if (trigger) trigger.transform.parent.GetComponent<Animator>().SetTrigger(trigger.name);
 
             if (director.state == PlayState.Paused)
             {
