@@ -44,7 +44,7 @@ public class PlayerCutScenes : MonoBehaviour
         {
             if (trigger) trigger.transform.parent.GetComponent<Animator>().SetTrigger(trigger.name);
 
-            if (director.state == PlayState.Paused)
+            if (director.state == PlayState.Paused && director.time != 0)
             {
                 canInteract?.Invoke(false);
                 director.Resume();
