@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
 using TMPro;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -25,6 +24,7 @@ public class PlayerCutScenes : MonoBehaviour
     PlayableDirector director;
     InputAction interactAction;
     GameObject trigger;
+    Coroutine textCoroutine;
 
     void Awake()
     {
@@ -91,15 +91,22 @@ public class PlayerCutScenes : MonoBehaviour
         Destroy(trigger);
     }
 
-    public void WaitForText(string text) => StartCoroutine(RunText(text));
+    public void WaitForText(string text)
+    {
+        if (textCoroutine != null) StopCoroutine(textCoroutine);
+        textCoroutine = StartCoroutine(RunText(text));
+    }
 
     IEnumerator RunText(string text)
     {
+        textLabel.alpha = 0;
         textLabel.text = text;
 
         yield return FadeTMP(textLabel, 1, fadeIn);
         yield return new WaitForSeconds(playerTextTime);
         yield return FadeTMP(textLabel, 0, fadeOut);
+
+        textCoroutine = null;
     }
 
     static public IEnumerator FadeTMP(TMP_Text tmp, float target, float duration)

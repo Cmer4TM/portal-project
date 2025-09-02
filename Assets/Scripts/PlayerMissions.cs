@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInput))]
@@ -18,6 +19,7 @@ public class PlayerMissions : MonoBehaviour
 
     public TMP_Text missionText;
     public List<Mission> missions;
+    public UnityEvent<string> playerTextEvent;
 
     [SerializeField] float missionTextTime = 5;
     [SerializeField] float missionSwitchTime = 2;
@@ -28,9 +30,10 @@ public class PlayerMissions : MonoBehaviour
     InputAction lookAction;
     float lookSum;
 
-    void Awake() => lookAction = GetComponent<PlayerInput>().actions["Look"];
     void Start()
     {
+        lookAction = GetComponent<PlayerInput>().actions["Look"];
+
         missionText.text = missions[0].text;
         workerCoroutine = StartCoroutine(ShowAndHideMission(false));
     }
@@ -45,7 +48,11 @@ public class PlayerMissions : MonoBehaviour
                 Vector2 d = lookAction.ReadValue<Vector2>();
                 lookSum += Mathf.Abs(d.x);
 
-                if (lookSum >= 5000) StartCoroutine(CompleteMission("look"));
+                if (lookSum >= 5000)
+                {
+                    StartCoroutine(CompleteMission("look"));
+                    playerTextEvent?.Invoke("Треба знайти вихід...");
+                }
 
                 break;
         }
