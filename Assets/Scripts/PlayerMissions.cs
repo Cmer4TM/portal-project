@@ -17,6 +17,7 @@ public class PlayerMissions : MonoBehaviour
         [NonSerialized] public bool completed;
     }
 
+    public RectTransform missionTextBg;
     public TMP_Text missionText;
     public List<Mission> missions;
     public UnityEvent<string> playerTextEvent;
@@ -63,17 +64,17 @@ public class PlayerMissions : MonoBehaviour
     IEnumerator TextMove(float target, float seconds)
     {
         float elapsedTime = 0;
-        Vector2 startingPos = missionText.rectTransform.anchoredPosition;
+        Vector2 startingPos = missionTextBg.anchoredPosition;
 
         while (elapsedTime < seconds)
         {
-            missionText.rectTransform.anchoredPosition = Vector2.Lerp(startingPos, new(target, 0), elapsedTime / seconds);
+            missionTextBg.anchoredPosition = Vector2.Lerp(startingPos, new(target, 0), elapsedTime / seconds);
             elapsedTime += Time.unscaledDeltaTime;
 
             yield return null;
         }
 
-        missionText.rectTransform.anchoredPosition = new(target, 0);
+        missionTextBg.anchoredPosition = new(target, 0);
     }
 
     IEnumerator TextFade(float target, float seconds)
@@ -97,7 +98,9 @@ public class PlayerMissions : MonoBehaviour
         if (complete) missionText.fontStyle = FontStyles.Strikethrough;
 
         Canvas.ForceUpdateCanvases();
-        yield return TextMove(-missionText.rectTransform.rect.width - 20, moveTime);
+        missionTextBg.sizeDelta = missionText.rectTransform.sizeDelta + new Vector2(40, 0);
+
+        yield return TextMove(-missionTextBg.rect.width, moveTime);
 
         if (complete)
         {
@@ -109,7 +112,8 @@ public class PlayerMissions : MonoBehaviour
             missionText.fontStyle = FontStyles.Normal;
 
             Canvas.ForceUpdateCanvases();
-            missionText.rectTransform.anchoredPosition = new(-missionText.rectTransform.rect.width - 20, 0);
+            missionTextBg.sizeDelta = missionText.rectTransform.sizeDelta + new Vector2(40, 0);
+            missionTextBg.anchoredPosition = new(-missionTextBg.rect.width, 0);
 
             yield return TextFade(1, fadeTime);
         }
