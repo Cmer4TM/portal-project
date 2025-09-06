@@ -4509,7 +4509,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60.000004
   orthographic: 0
@@ -6134,6 +6134,7 @@ GameObject:
   - component: {fileID: 1995761111}
   - component: {fileID: 1995761110}
   - component: {fileID: 1995761112}
+  - component: {fileID: 1995761113}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -6244,6 +6245,19 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &1995761113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995761109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e2728186c0575408a83ef8d00ee3f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  world: {fileID: 241830736010893943}
 --- !u!1 &2038517132
 GameObject:
   m_ObjectHideFlags: 0
@@ -15426,8 +15440,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 16, y: 5, z: 0.28548795}
-  m_Center: {x: 0, y: 0.5, z: 0.042743772}
+  m_Size: {x: 16, y: 5, z: 0.19999999}
+  m_Center: {x: 0, y: 0.5000001, z: -0.00000019744039}
 --- !u!1 &6643184547229965495
 GameObject:
   m_ObjectHideFlags: 0
@@ -15800,8 +15814,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 16, y: 5, z: 0.27000433}
-  m_Center: {x: 0, y: 0.5, z: -0.0350022}
+  m_Size: {x: 16, y: 5, z: 0.19999999}
+  m_Center: {x: 0, y: 0.5000001, z: -0.000000040978193}
 --- !u!33 &6819726498590052477
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -16841,7 +16855,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.23907822, y: 5, z: 4.4435434}
+  m_Size: {x: 0.2, y: 5, z: 4.4435434}
   m_Center: {x: 0.019539028, y: 0.5, z: 1.7782283}
 --- !u!65 &7312229339371645114
 BoxCollider:
@@ -16862,7 +16876,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.24198121, y: 5, z: 2.3813448}
+  m_Size: {x: 0.2, y: 5, z: 2.3813448}
   m_Center: {x: 0.02099052, y: 0.5, z: -2.8093276}
 --- !u!65 &7312229339371645115
 BoxCollider:
@@ -16883,7 +16897,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.2444436, y: 2.8041234, z: 8}
+  m_Size: {x: 0.2, y: 2.8041234, z: 8}
   m_Center: {x: 0.022221714, y: -0.5979383, z: 0}
 --- !u!1 &7340202226906436363
 GameObject:
@@ -17062,8 +17076,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.29716414, y: 5, z: 8}
-  m_Center: {x: -0.048582464, y: 0.5, z: 0}
+  m_Size: {x: 0.19999999, y: 5, z: 8}
+  m_Center: {x: -0.00000039115548, y: 0.5, z: 0}
 --- !u!4 &7410016727891450823
 Transform:
   m_ObjectHideFlags: 0
@@ -18135,7 +18149,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.3373947, y: 5, z: 2.3183393}
+  m_Size: {x: 0.2, y: 5, z: 2.3183393}
   m_Center: {x: 0.007835627, y: 0, z: 2.8408303}
 --- !u!65 &8040674912189170921
 BoxCollider:
@@ -18156,7 +18170,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.31373215, y: 2.8403242, z: 8}
+  m_Size: {x: 0.2, y: 2.8403242, z: 8}
   m_Center: {x: 0.000426054, y: 1.0798379, z: 0}
 --- !u!65 &8040674912189170922
 BoxCollider:
@@ -18177,7 +18191,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.3184216, y: 5, z: 4.5630236}
+  m_Size: {x: 0.2, y: 5, z: 4.5630236}
   m_Center: {x: -0.016253114, y: 0, z: -1.7184882}
 --- !u!1 &8077561875401749096
 GameObject:
@@ -18983,8 +18997,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 16, y: 5, z: 0.24959664}
-  m_Center: {x: 0, y: 0.5, z: 0.024798132}
+  m_Size: {x: 16, y: 5, z: 0.19999999}
+  m_Center: {x: 0, y: 0.5000001, z: -0.00000019744039}
 --- !u!33 &8442401531319842391
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -20115,8 +20129,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 16, y: 5, z: 0.2222281}
-  m_Center: {x: 0, y: 0.5, z: -0.011114098}
+  m_Size: {x: 16, y: 5, z: 0.19999999}
+  m_Center: {x: 0, y: 0.5000001, z: -0.000000040978193}
 --- !u!4 &8914867123151350491
 Transform:
   m_ObjectHideFlags: 0
