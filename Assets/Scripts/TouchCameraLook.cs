@@ -3,12 +3,13 @@ using UnityEngine.EventSystems;
 
 public class LookAreaTouch : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
-    [SerializeField] private Transform playerTf;
-    [SerializeField] private Transform cameraTf;
-    [SerializeField] private float sensitivity = 0.1f;
+    public Transform playerTransform;
+    public Transform cameraTransform;
 
-    private float xRotation;
-    private Vector2 lastPosition;
+    public float sensitivity;
+
+    Vector2 lastPosition;
+    float xRotation;
 
     public void OnPointerDown(PointerEventData e) => lastPosition = e.position;
 
@@ -19,8 +20,8 @@ public class LookAreaTouch : MonoBehaviour, IPointerDownHandler, IDragHandler
 
         xRotation -= delta.y * sensitivity;
         xRotation = Mathf.Clamp(xRotation, -90, 90);
-        cameraTf.localRotation = Quaternion.Euler(xRotation, 0, 0);
+        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0, 0);
 
-        playerTf.Rotate(delta.x * sensitivity * Vector3.up);
+        playerTransform.Rotate(delta.x * sensitivity * Vector3.up);
     }
 }

@@ -14,7 +14,7 @@ public class PlayerMissions : MonoBehaviour
     {
         public string id;
         public string text;
-        [NonSerialized] public bool completed;
+        public bool completed;
     }
 
     public RectTransform missionTextBg;
@@ -22,19 +22,20 @@ public class PlayerMissions : MonoBehaviour
     public List<Mission> missions;
     public UnityEvent<string> playerTextEvent;
 
-    [SerializeField] float missionTextTime = 5;
-    [SerializeField] float missionSwitchTime = 2;
-    [SerializeField] float fadeTime = 0.6f;
-    [SerializeField] float moveTime = 0.6f;
+    [SerializeField] float missionTextTime;
+    [SerializeField] float missionSwitchTime;
+    [SerializeField] float fadeTime;
+    [SerializeField] float moveTime;
 
     Coroutine workerCoroutine;
     InputAction lookAction;
-    float lookSum;
+
+    Vector2 lookSum;
+
+    void Awake() => lookAction = GetComponent<PlayerInput>().actions["Look"];
 
     void Start()
     {
-        lookAction = GetComponent<PlayerInput>().actions["Look"];
-
         missionText.text = missions[0].text;
         workerCoroutine = StartCoroutine(ShowAndHideMission(false));
     }
@@ -47,13 +48,9 @@ public class PlayerMissions : MonoBehaviour
         {
             case "look":
                 Vector2 d = lookAction.ReadValue<Vector2>();
-                lookSum += Mathf.Abs(d.x);
+                lookSum += new Vector2(Mathf.Abs(d.x), MathF.Abs(d.y));
 
-                if (lookSum >= 5000)
-                {
-                    StartCoroutine(CompleteMission("look"));
-                    playerTextEvent?.Invoke("Треба знайти вихід...");
-                }
+                if (lookSum.magnitude >= 5000) StartCoroutine(CompleteMission("look", "Треба знайти вихід..."));
 
                 break;
         }
@@ -124,7 +121,7 @@ public class PlayerMissions : MonoBehaviour
         workerCoroutine = null;
     }
 
-    IEnumerator CompleteMission(string missionId)
+    IEnumerator CompleteMission(string missionId, string playerText = null)
     {
         if (missions[0].id != missionId) yield break;
 
@@ -132,5 +129,7 @@ public class PlayerMissions : MonoBehaviour
 
         yield return workerCoroutine;
         workerCoroutine = StartCoroutine(ShowAndHideMission(true));
+
+        if (string.IsNullOrEmpty(playerText) == false) playerTextEvent?.Invoke(playerText);
     }
 }

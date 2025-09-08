@@ -12,13 +12,13 @@ public class SettingsManager : MonoBehaviour
 
     public Image brightnessOverlay;
 
-    private const string BrightnessKey = "Brightness";
-    private const string VolumeKey = "Volume";
+    const string Brightness = nameof(Brightness);
+    const string Volume = nameof(Volume);
 
-    private void Awake()
+    void Start()
     {
-        brightnessSlider.value = PlayerPrefs.GetFloat(BrightnessKey, 1);
-        volumeSlider.value = PlayerPrefs.GetFloat(VolumeKey, 1);
+        brightnessSlider.value = PlayerPrefs.GetFloat(Brightness, 1);
+        volumeSlider.value = PlayerPrefs.GetFloat(Volume, 1);
     }
 
     public void ToggleSettings(bool active)
@@ -32,7 +32,7 @@ public class SettingsManager : MonoBehaviour
     {
         brightnessOverlay.color = new(0, 0, 0, Mathf.Lerp(0, 0.6f, 1 - value));
 
-        PlayerPrefs.SetFloat(BrightnessKey, value);
+        PlayerPrefs.SetFloat(Brightness, value);
         PlayerPrefs.Save();
     }
 
@@ -40,7 +40,7 @@ public class SettingsManager : MonoBehaviour
     {
         AudioListener.volume = value;
 
-        PlayerPrefs.SetFloat(VolumeKey, value);
+        PlayerPrefs.SetFloat(Volume, value);
         PlayerPrefs.Save();
     }
 }

@@ -7,9 +7,9 @@ public class SceneManager : MonoBehaviour
 {
     public static SceneManager Instance;
 
-    [SerializeField] private GameObject canvas;
-    [SerializeField] private Slider slider;
-    [SerializeField] private TMP_Text progress;
+    public GameObject canvas;
+    public Slider slider;
+    public TMP_Text progress;
 
     private void Awake()
     {
@@ -18,14 +18,13 @@ public class SceneManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        else Destroy(gameObject);
     }
 
     public void LoadScene(string sceneName)
     {
+        canvas.SetActive(true);
+
         AsyncOperation loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
         StartCoroutine(LoadingUpdate(loading));
     }
@@ -39,5 +38,7 @@ public class SceneManager : MonoBehaviour
 
             yield return null;
         }
+
+        canvas.SetActive(false);
     }
 }

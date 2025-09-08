@@ -16,13 +16,12 @@ public class PlayerCutScenes : MonoBehaviour
     public GameObject skipButton;
     public UnityEvent<bool> canInteract;
     
-    [SerializeField] float playerTextTime = 5;
-    [SerializeField] float fadeIn = 0.6f;
-    [SerializeField] float fadeOut = 0.6f;
+    [SerializeField] float playerTextTime;
+    [SerializeField] float fadeIn;
+    [SerializeField] float fadeOut;
 
     CharacterController controller;
     PlayableDirector director;
-    InputAction interactAction;
     GameObject trigger;
     Coroutine textCoroutine;
 
@@ -32,23 +31,18 @@ public class PlayerCutScenes : MonoBehaviour
         director = GetComponent<PlayableDirector>();
 
         director.stopped += FinishCutscene;
-
-        interactAction = GetComponent<PlayerInput>().actions["Interact"];
     }
 
     void Start() => StartCutscene("GameStart");
 
-    void Update()
+    public void OnInteract()
     {
-        if (interactAction.triggered)
-        {
-            if (trigger) trigger.transform.parent.GetComponent<Animator>().SetTrigger(trigger.name);
+        if (trigger) trigger.GetComponentInParent<Animator>().SetTrigger(trigger.name);
 
-            if (director.state == PlayState.Paused && director.time != 0)
-            {
-                canInteract?.Invoke(false);
-                director.Resume();
-            }
+        if (director.state == PlayState.Paused && director.time != 0)
+        {
+            canInteract?.Invoke(false);
+            director.Resume();
         }
     }
 
@@ -69,17 +63,17 @@ public class PlayerCutScenes : MonoBehaviour
 
     void StartCutscene(string triggerName)
     {
-        TimelineAsset timeline = timelines.FirstOrDefault(timeline => timeline.name == triggerName);
-        if (timeline == null) return;
+        if (timelines.First(timeline => timeline.name == triggerName) is TimelineAsset timeline)
+        {
+            trigger = null;
+            director.playableAsset = timeline;
 
-        trigger = null;
-        director.playableAsset = timeline;
+            controller.enabled = false;
+            HUD.SetActive(false);
+            skipButton.SetActive(true);
 
-        controller.enabled = false;
-        HUD.SetActive(false);
-        skipButton.SetActive(true);
-
-        director.Play();
+            director.Play();
+        }
     }
 
     void FinishCutscene(PlayableDirector director)
@@ -94,6 +88,7 @@ public class PlayerCutScenes : MonoBehaviour
     public void WaitForText(string text)
     {
         if (textCoroutine != null) StopCoroutine(textCoroutine);
+
         textCoroutine = StartCoroutine(RunText(text));
     }
 
@@ -102,22 +97,22 @@ public class PlayerCutScenes : MonoBehaviour
         textLabel.alpha = 0;
         textLabel.text = text;
 
-        yield return FadeTMP(textLabel, 1, fadeIn);
+        yield return FadeTMP(1, fadeIn);
         yield return new WaitForSeconds(playerTextTime);
-        yield return FadeTMP(textLabel, 0, fadeOut);
+        yield return FadeTMP(0, fadeOut);
 
         textCoroutine = null;
     }
 
-    static public IEnumerator FadeTMP(TMP_Text tmp, float target, float duration)
+    IEnumerator FadeTMP(float target, float duration)
     {
-        float start = tmp.alpha;
+        float start = textLabel.alpha;
         float time = 0;
 
         while (time < duration)
         {
             time += Time.unscaledDeltaTime;
-            tmp.alpha = Mathf.Lerp(start, target, time / duration);
+            textLabel.alpha = Mathf.Lerp(start, target, time / duration);
 
             yield return null;
         }

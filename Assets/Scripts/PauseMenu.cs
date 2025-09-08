@@ -18,12 +18,5 @@ public class PauseMenu : MonoBehaviour
 
     public void LoadScene(string sceneName) => SceneManager.Instance.LoadScene(sceneName);
 
-    public void ExitToDesktop()
-    {
-        Application.Quit();
-
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #endif
-    }
+    public void ExitToDesktop() => Application.Quit();
 }
