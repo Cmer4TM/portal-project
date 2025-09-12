@@ -15,21 +15,21 @@ public class PlayerCutScenes : MonoBehaviour
     public TMP_Text textLabel;
     public GameObject skipButton;
     public UnityEvent<bool> canInteract;
-
-    [SerializeField] float playerTextTime = 3f;
-    [SerializeField] float fadeIn = 0.6f;
-    [SerializeField] float fadeOut = 0.6f;
+    
+    [SerializeField] float playerTextTime;
+    [SerializeField] float fadeIn;
+    [SerializeField] float fadeOut;
 
     CharacterController controller;
     PlayableDirector director;
     GameObject trigger;
     Coroutine textCoroutine;
-    string currentTimelineName;
 
     void Awake()
     {
         controller = GetComponent<CharacterController>();
         director = GetComponent<PlayableDirector>();
+
         director.stopped += FinishCutscene;
     }
 
@@ -37,11 +37,7 @@ public class PlayerCutScenes : MonoBehaviour
 
     public void OnInteract()
     {
-        if (trigger)
-        {
-            var anim = trigger.GetComponentInParent<Animator>();
-            if (anim) anim.SetTrigger(trigger.name);
-        }
+        if (trigger) trigger.GetComponentInParent<Animator>().SetTrigger(trigger.name);
 
         if (director.state == PlayState.Paused && director.time != 0)
         {
@@ -63,60 +59,47 @@ public class PlayerCutScenes : MonoBehaviour
         StartCutscene(other.name);
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject == trigger) trigger = null;
-        canInteract?.Invoke(false);
-    }
+    void OnTriggerExit(Collider other) => canInteract?.Invoke(false);
 
     void StartCutscene(string triggerName)
     {
-        var timeline = timelines.FirstOrDefault(t => t && t.name == triggerName);
-        if (!timeline) return;
+        if (timelines.First(timeline => timeline.name == triggerName) is TimelineAsset timeline)
+        {
+            trigger = null;
+            director.playableAsset = timeline;
 
-        currentTimelineName = triggerName;
-        trigger = null;
+            controller.enabled = false;
+            HUD.SetActive(false);
+            skipButton.SetActive(true);
 
-        director.playableAsset = timeline;
-
-        if (controller) controller.enabled = false;
-        if (HUD) HUD.SetActive(false);
-        if (skipButton) skipButton.SetActive(true);
-
-        director.Play();
+            director.Play();
+        }
     }
 
-    void FinishCutscene(PlayableDirector _)
+    void FinishCutscene(PlayableDirector director)
     {
-        if (controller) controller.enabled = true;
-        if (HUD) HUD.SetActive(true);
-        if (skipButton) skipButton.SetActive(false);
+        controller.enabled = true;
+        HUD.SetActive(true);
+        skipButton.SetActive(false);
 
-        if (trigger && !trigger.CompareTag("Interactable"))
-        {
-            var toDestroy = trigger;
-            trigger = null;
-            Destroy(toDestroy);
-        }
+        Destroy(trigger);
     }
 
     public void WaitForText(string text)
     {
         if (textCoroutine != null) StopCoroutine(textCoroutine);
+
         textCoroutine = StartCoroutine(RunText(text));
     }
 
     IEnumerator RunText(string text)
     {
-        if (!textLabel) yield break;
-
-        textLabel.gameObject.SetActive(true);
-        textLabel.alpha = 0f;
+        textLabel.alpha = 0;
         textLabel.text = text;
 
-        yield return FadeTMP(1f, fadeIn);
+        yield return FadeTMP(1, fadeIn);
         yield return new WaitForSeconds(playerTextTime);
-        yield return FadeTMP(0f, fadeOut);
+        yield return FadeTMP(0, fadeOut);
 
         textCoroutine = null;
     }
@@ -124,22 +107,21 @@ public class PlayerCutScenes : MonoBehaviour
     IEnumerator FadeTMP(float target, float duration)
     {
         float start = textLabel.alpha;
-        float time = 0f;
+        float time = 0;
 
         while (time < duration)
         {
             time += Time.unscaledDeltaTime;
             textLabel.alpha = Mathf.Lerp(start, target, time / duration);
+
             yield return null;
         }
-
-        textLabel.alpha = target;
-        if (Mathf.Approximately(target, 0f)) textLabel.gameObject.SetActive(false);
     }
 
     public void SkipCutscene()
     {
         canInteract?.Invoke(false);
+
         director.Pause();
         director.time = director.duration;
         director.Resume();

@@ -18,6 +18,8 @@ public class Terminal : MonoBehaviour
 
     void LightColor(Color color)
     {
+        if (lights == null || lights.Length == 0) return;
+
         foreach (Light light in lights) light.color = color;
     }
 }
