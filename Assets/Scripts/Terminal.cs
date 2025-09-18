@@ -6,8 +6,6 @@ public class Terminal : MonoBehaviour
     public Animator door;
     public Light[] lights;
 
-    void Start() => LightColor(Color.red);
-
     public void TerminalActivated()
     {
         door.ResetTrigger("Open");
