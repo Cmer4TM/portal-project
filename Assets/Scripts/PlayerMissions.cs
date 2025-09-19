@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(PlayerInput))]
 public class PlayerMissions : MonoBehaviour
 {
     [Serializable]
@@ -14,6 +12,9 @@ public class PlayerMissions : MonoBehaviour
     {
         public string id;
         public string text;
+        public string finishText;
+
+        [NonSerialized]
         public bool completed;
     }
 
@@ -28,32 +29,11 @@ public class PlayerMissions : MonoBehaviour
     [SerializeField] float moveTime;
 
     Coroutine workerCoroutine;
-    InputAction lookAction;
-
-    Vector2 lookSum;
-
-    void Awake() => lookAction = GetComponent<PlayerInput>().actions["Look"];
 
     void Start()
     {
         missionText.text = missions[0].text;
         workerCoroutine = StartCoroutine(ShowAndHideMission(false));
-    }
-
-    void Update()
-    {
-        if (missions[0].completed) return;
-
-        switch (missions[0].id)
-        {
-            case "look":
-                Vector2 d = lookAction.ReadValue<Vector2>();
-                lookSum += new Vector2(Mathf.Abs(d.x), MathF.Abs(d.y));
-
-                if (lookSum.magnitude >= 5000) StartCoroutine(CompleteMission("look", "Треба знайти вихід..."));
-
-                break;
-        }
     }
 
     public void MissionButton() => workerCoroutine ??= StartCoroutine(ShowAndHideMission(false));
@@ -121,15 +101,22 @@ public class PlayerMissions : MonoBehaviour
         workerCoroutine = null;
     }
 
-    IEnumerator CompleteMission(string missionId, string playerText = null)
+    IEnumerator CompleteMission(string missionId, GameObject trigger = null)
     {
         if (missions[0].id != missionId) yield break;
+
+        if (trigger) Destroy(trigger);
 
         missions[0].completed = true;
 
         yield return workerCoroutine;
         workerCoroutine = StartCoroutine(ShowAndHideMission(true));
 
-        if (string.IsNullOrEmpty(playerText) == false) playerTextEvent?.Invoke(playerText);
+        if (missions[0].finishText is null) playerTextEvent?.Invoke(missions[0].finishText);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Mission")) StartCoroutine(CompleteMission(other.name, other.gameObject));
     }
 }

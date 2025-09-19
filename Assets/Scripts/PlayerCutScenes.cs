@@ -50,22 +50,27 @@ public class PlayerCutScenes : MonoBehaviour
     {
         trigger = other.gameObject;
 
-        if (other.CompareTag("Interactable"))
+        switch (other.tag)
         {
-            canInteract?.Invoke(true);
-            return;
-        }
+            case "Interactable":
+                canInteract?.Invoke(true);
 
-        StartCutscene(other.name);
+                break;
+
+            case "Cutscene":
+                StartCutscene(other.name);
+
+                break;
+        }
     }
 
     void OnTriggerExit(Collider other) => canInteract?.Invoke(false);
 
     void StartCutscene(string triggerName)
     {
-        if (timelines.First(timeline => timeline.name == triggerName) is TimelineAsset timeline)
+        if (timelines.FirstOrDefault(timeline => timeline.name == triggerName) is TimelineAsset timeline)
         {
-            trigger = null;
+            Destroy(trigger);
             director.playableAsset = timeline;
 
             controller.enabled = false;
@@ -81,8 +86,6 @@ public class PlayerCutScenes : MonoBehaviour
         controller.enabled = true;
         HUD.SetActive(true);
         skipButton.SetActive(false);
-
-        Destroy(trigger);
     }
 
     public void WaitForText(string text)
