@@ -54,22 +54,6 @@ public class PlayerMissions : MonoBehaviour
         missionTextBg.anchoredPosition = new(target, 0);
     }
 
-    IEnumerator TextFade(float target)
-    {
-        float elapsedTime = 0;
-        float startingAlpha = missionText.alpha;
-
-        while (elapsedTime < fadeTime)
-        {
-            missionText.alpha = Mathf.Lerp(startingAlpha, target, elapsedTime / fadeTime);
-            elapsedTime += Time.unscaledDeltaTime;
-
-            yield return null;
-        }
-
-        missionText.alpha = target;
-    }
-
     IEnumerator ShowAndHideMission(bool complete)
     {
         if (complete) missionText.fontStyle = FontStyles.Strikethrough;
@@ -82,7 +66,7 @@ public class PlayerMissions : MonoBehaviour
         if (complete)
         {
             yield return new WaitForSeconds(missionSwitchTime);
-            yield return TextFade(0);
+            yield return GameManager.TextFade(missionText, 0, fadeTime);
 
             missions.RemoveAt(0);
             missionText.text = missions[0].text;
@@ -92,7 +76,7 @@ public class PlayerMissions : MonoBehaviour
             missionTextBg.sizeDelta = missionText.rectTransform.sizeDelta + new Vector2(40, 0);
             missionTextBg.anchoredPosition = new(-missionTextBg.rect.width, 0);
 
-            yield return TextFade(1);
+            yield return GameManager.TextFade(missionText, 1, fadeTime);
         }
 
         yield return new WaitForSeconds(missionTextTime);

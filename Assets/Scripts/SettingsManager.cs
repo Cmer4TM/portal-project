@@ -3,10 +3,6 @@ using UnityEngine.UI;
 
 public class SettingsManager : MonoBehaviour
 {
-    public GameObject mainButtonsPanel;
-    public GameObject settingsPanel;
-    public GameObject title;
-
     public Slider brightnessSlider;
     public Slider volumeSlider;
 
@@ -19,13 +15,6 @@ public class SettingsManager : MonoBehaviour
     {
         brightnessSlider.value = PlayerPrefs.GetFloat(Brightness, 1);
         volumeSlider.value = PlayerPrefs.GetFloat(Volume, 1);
-    }
-
-    public void ToggleSettings(bool active)
-    {
-        if (title) title.SetActive(active == false);
-        mainButtonsPanel.SetActive(active == false);
-        settingsPanel.SetActive(active);
     }
 
     public void SetBrightness(float value)

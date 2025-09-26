@@ -17,8 +17,7 @@ public class PlayerCutScenes : MonoBehaviour
     public UnityEvent<bool> canInteract;
     
     [SerializeField] float playerTextTime;
-    [SerializeField] float fadeIn;
-    [SerializeField] float fadeOut;
+    [SerializeField] float fadeTime;
 
     CharacterController controller;
     PlayableDirector director;
@@ -37,7 +36,25 @@ public class PlayerCutScenes : MonoBehaviour
 
     public void OnInteract()
     {
-        if (trigger) trigger.GetComponentInParent<Animator>().SetTrigger(trigger.name);
+        if (trigger)
+        {
+            Transform parent = trigger.transform.parent;
+
+            if (parent.TryGetComponent(out Animator animator))
+            {
+                animator.SetTrigger(trigger.name);
+
+                return;
+            }
+
+            if (parent.TryGetComponent(out Machine machine))
+            {
+                machine.Interact();
+                canInteract?.Invoke(false);
+
+                return;
+            }
+        }
 
         if (director.state == PlayState.Paused && director.time != 0)
         {
@@ -100,25 +117,11 @@ public class PlayerCutScenes : MonoBehaviour
         textLabel.alpha = 0;
         textLabel.text = text;
 
-        yield return FadeTMP(1, fadeIn);
+        yield return GameManager.TextFade(textLabel, 1, fadeTime);
         yield return new WaitForSeconds(playerTextTime);
-        yield return FadeTMP(0, fadeOut);
+        yield return GameManager.TextFade(textLabel, 0, fadeTime);
 
         textCoroutine = null;
-    }
-
-    IEnumerator FadeTMP(float target, float duration)
-    {
-        float start = textLabel.alpha;
-        float time = 0;
-
-        while (time < duration)
-        {
-            time += Time.unscaledDeltaTime;
-            textLabel.alpha = Mathf.Lerp(start, target, time / duration);
-
-            yield return null;
-        }
     }
 
     public void SkipCutscene()

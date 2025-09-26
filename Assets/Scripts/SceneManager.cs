@@ -5,21 +5,13 @@ using UnityEngine.UI;
 
 public class SceneManager : MonoBehaviour
 {
-    public static SceneManager Instance;
+    public static SceneManager Instance { get; private set; }
 
     public GameObject canvas;
     public Slider slider;
     public TMP_Text progress;
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else Destroy(gameObject);
-    }
+    void Awake() => Instance = this;
 
     public void LoadScene(string sceneName)
     {

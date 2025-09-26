@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Capsule Open
+  m_Name: Machine Door Open
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -18,35 +18,44 @@ AnimationClip:
       - serializedVersion: 3
         time: 0
         value: {x: 0, y: -0, z: -0, w: 1}
-        inSlope: {x: 0, y: 0.048269246, z: 0, w: -0.000037550923}
-        outSlope: {x: 0, y: 0.048269246, z: 0, w: -0.000037550923}
+        inSlope: {x: 0, y: 0.046338465, z: 0, w: -0.000044345856}
+        outSlope: {x: 0, y: 0.046338465, z: 0, w: -0.000044345856}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
-        time: 0.5
-        value: {x: 0, y: 0.27262136, z: -0, w: 0.9621214}
-        inSlope: {x: 0, y: 0.8844967, z: 0, w: -0.2510172}
-        outSlope: {x: 0, y: 0.8844967, z: 0, w: -0.2510172}
+        time: 0.5416667
+        value: {x: 0, y: 0.25701684, z: -0, w: 0.96640694}
+        inSlope: {x: 0, y: 0.7981796, z: 0, w: -0.2128636}
+        outSlope: {x: 0, y: 0.7981796, z: 0, w: -0.2128636}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
-        time: 0.86666673
-        value: {x: 0, y: 0.58654916, z: -0, w: 0.80991364}
-        inSlope: {x: 0, y: 0.7230574, z: 0, w: -0.523105}
-        outSlope: {x: 0, y: 0.7230574, z: 0, w: -0.523105}
+        time: 0.9583334
+        value: {x: 0, y: 0.59761643, z: -0, w: 0.80178213}
+        inSlope: {x: 0, y: 0.73801106, z: 0, w: -0.5497457}
+        outSlope: {x: 0, y: 0.73801106, z: 0, w: -0.5497457}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
       - serializedVersion: 3
-        time: 1.3333334
-        value: {x: 8.6266084e-17, y: 0.76604444, z: -8.6266084e-17, w: 0.64278764}
-        inSlope: {x: -3.6091578e-19, y: 0.031056434, z: 3.6091578e-19, w: -0.036950145}
-        outSlope: {x: -3.6091578e-19, y: 0.031056434, z: 3.6091578e-19, w: -0.036950145}
+        time: 1.4583334
+        value: {x: 8.4568425e-17, y: 0.84265804, z: -8.4568425e-17, w: 0.5384491}
+        inSlope: {x: -7.614489e-18, y: 0.22209713, z: 7.614489e-18, w: -0.3464509}
+        outSlope: {x: -7.614489e-18, y: 0.22209713, z: 7.614489e-18, w: -0.3464509}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
+      - serializedVersion: 3
+        time: 1.6666667
+        value: {x: 8.3644934e-17, y: 0.8660254, z: -8.3644934e-17, w: 0.5}
+        inSlope: {x: -1.0347017e-18, y: 0.023207143, z: 1.0347017e-18, w: -0.040107172}
+        outSlope: {x: -1.0347017e-18, y: 0.023207143, z: 1.0347017e-18, w: -0.040107172}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334, w: 0.33333334}
@@ -54,14 +63,14 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Capsula_Top
+    path: auto_rob_door
   m_CompressedRotationCurves: []
   m_EulerCurves: []
   m_PositionCurves: []
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves: []
-  m_SampleRate: 30
+  m_SampleRate: 24
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -74,7 +83,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.3333334
+    m_StopTime: 1.6666667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
