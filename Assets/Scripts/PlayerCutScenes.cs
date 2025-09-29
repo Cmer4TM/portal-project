@@ -38,21 +38,24 @@ public class PlayerCutScenes : MonoBehaviour
     {
         if (trigger)
         {
-            Transform parent = trigger.transform.parent;
-
-            if (parent.TryGetComponent(out Animator animator))
+            if (trigger.CompareTag("Portal Gun"))
             {
-                animator.SetTrigger(trigger.name);
+                Destroy(trigger);
+                canInteract?.Invoke(false);
+
+                trigger.transform.parent.GetComponent<Machine>().PortalGun();
 
                 return;
             }
 
-            if (parent.TryGetComponent(out Machine machine))
-            {
-                machine.Interact();
-                canInteract?.Invoke(false);
+            Transform parent = trigger.transform.parent;
 
-                return;
+            if (parent.TryGetComponent(out Animator animator)) animator.SetTrigger(trigger.name);
+            
+            else if (parent.TryGetComponent(out Machine machine))
+            {
+                machine.Fix();
+                canInteract?.Invoke(false);
             }
         }
 
@@ -70,6 +73,7 @@ public class PlayerCutScenes : MonoBehaviour
         switch (other.tag)
         {
             case "Interactable":
+            case "Portal Gun":
                 canInteract?.Invoke(true);
 
                 break;
