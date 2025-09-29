@@ -1,19 +1,13 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator), typeof(AudioSource))]
 public class Terminal : MonoBehaviour
 {
     public Animator door;
     public Light[] lights;
-    public AudioClip pressSound;
-
-    AudioSource audioSource;
-
-    void Awake() => audioSource = GetComponent<AudioSource>();
 
     public void TerminalActivated()
     {
-        audioSource.PlayOneShot(pressSound);
+        AudioManager.Instance.sfxAudioSource.PlayOneShot(AudioManager.Instance.terminalSound);
 
         door.ResetTrigger("Open");
         door.SetBool("Unlocked", true);

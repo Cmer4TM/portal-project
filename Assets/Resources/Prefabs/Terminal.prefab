@@ -221,11 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 0}
-  lights:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  lights: []
 --- !u!1 &6705243898116492068
 GameObject:
   m_ObjectHideFlags: 0

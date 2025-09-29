@@ -11,7 +11,7 @@ public class SceneManager : MonoBehaviour
     public Slider slider;
     public TMP_Text progress;
 
-    void Awake() => Instance = this;
+    void Awake() => Instance = Instance ? Instance : this;
 
     public void LoadScene(string sceneName)
     {

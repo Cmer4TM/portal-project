@@ -7,8 +7,14 @@ public class Elevator : MonoBehaviour
     public Animator door;
     public Image blackScreen;
 
+    [SerializeField] bool inactive;
     [SerializeField] float fadeTime;
     [SerializeField] string nextSceneName;
+
+    void Start()
+    {
+        if (inactive) door.SetBool("Unlocked", true);
+    }
 
     public void ElevatorActivated()
     {
