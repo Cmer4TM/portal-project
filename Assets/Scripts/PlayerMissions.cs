@@ -14,8 +14,7 @@ public class PlayerMissions : MonoBehaviour
         public string text;
         public string finishText;
 
-        [NonSerialized]
-        public bool completed;
+        [NonSerialized] public bool completed;
     }
 
     public RectTransform missionTextBg;
@@ -96,7 +95,7 @@ public class PlayerMissions : MonoBehaviour
         yield return workerCoroutine;
         workerCoroutine = StartCoroutine(ShowAndHideMission(true));
 
-        if (missions[0].finishText is null) playerTextEvent?.Invoke(missions[0].finishText);
+        if (missions[0].finishText != null) playerTextEvent?.Invoke(missions[0].finishText);
     }
 
     private void OnTriggerEnter(Collider other)
