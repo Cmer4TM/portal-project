@@ -3275,7 +3275,7 @@ PrefabInstance:
     - target: {fileID: 2385938856860405894, guid: 87e45dbf9dbf66c4a82250b7fadf474b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1977404719881560573}
     - target: {fileID: 2385938856860405894, guid: 87e45dbf9dbf66c4a82250b7fadf474b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnInteract
@@ -3283,7 +3283,7 @@ PrefabInstance:
     - target: {fileID: 3349517411619532664, guid: 87e45dbf9dbf66c4a82250b7fadf474b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1977404719881560573}
     - target: {fileID: 3349517411619532664, guid: 87e45dbf9dbf66c4a82250b7fadf474b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SkipCutscene
@@ -3295,7 +3295,7 @@ PrefabInstance:
     - target: {fileID: 5478720458043839474, guid: 87e45dbf9dbf66c4a82250b7fadf474b, type: 3}
       propertyPath: playerTransform
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1977404719881560570}
     - target: {fileID: 7437952244362225777, guid: 87e45dbf9dbf66c4a82250b7fadf474b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -3379,7 +3379,7 @@ PrefabInstance:
     - target: {fileID: 7999691678343732158, guid: 87e45dbf9dbf66c4a82250b7fadf474b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1977404719881560572}
     - target: {fileID: 7999691678343732158, guid: 87e45dbf9dbf66c4a82250b7fadf474b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: MissionButton
@@ -13947,12 +13947,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'RingFinger3_R'\n\tTransform 'Hip_R'\n\tTransform
-    'IndexFinger3_L'\n\tTransform 'EyeJoint_L'\n\tTransform 'RootPart2_M'\n\tTransform
-    'HipPart1_R'\n\tTransform 'MiddleFinger3_L'\n\tTransform 'IndexFinger2_L'\n\tTransform
-    'Toes_L'\n\tTransform 'HipPart1_L'\n\tand more ..."
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
