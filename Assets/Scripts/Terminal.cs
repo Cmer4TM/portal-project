@@ -9,7 +9,14 @@ public class Terminal : MonoBehaviour
     {
         AudioManager.Instance.sfxAudioSource.PlayOneShot(AudioManager.Instance.terminalSound);
 
-        door.ResetTrigger("Open");
+        foreach (AnimatorControllerParameter parameter in door.parameters)
+        {
+            if (parameter.name == "Open" && parameter.type == AnimatorControllerParameterType.Trigger)
+            {
+                door.ResetTrigger("Open");
+            }
+        }
+
         door.SetBool("Unlocked", true);
 
         LightColor(Color.green);

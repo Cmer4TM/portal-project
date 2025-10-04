@@ -228,6 +228,66 @@ PrefabInstance:
       propertyPath: portalGunParent
       value: 
       objectReference: {fileID: 4215163156009419655}
+    - target: {fileID: 1794039419270400113, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
+      propertyPath: portalGunEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794039419270400113, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
+      propertyPath: portalGunEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794039419270400113, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
+      propertyPath: portalGunEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794039419270400113, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
+      propertyPath: portalGunEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1327293003}
+    - target: {fileID: 1794039419270400113, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
+      propertyPath: portalGunEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1334921572}
+    - target: {fileID: 1794039419270400113, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
+      propertyPath: portalGunEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794039419270400113, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
+      propertyPath: portalGunEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794039419270400113, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
+      propertyPath: portalGunEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794039419270400113, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
+      propertyPath: portalGunEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794039419270400113, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
+      propertyPath: portalGunEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794039419270400113, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
+      propertyPath: portalGunEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794039419270400113, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
+      propertyPath: portalGunEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794039419270400113, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
+      propertyPath: portalGunEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794039419270400113, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
+      propertyPath: portalGunEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794039419270400113, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
+      propertyPath: portalGunEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8952563968748642173, guid: 9eef2d250dcdb9e40bfbec402d450968, type: 3}
       propertyPath: m_Name
       value: Auto_Robot_02
@@ -2531,6 +2591,16 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3178254526976581209, guid: 34168b7eaeab22b438899dfc6151fad1, type: 3}
   m_PrefabInstance: {fileID: 1311531937}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1327293003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1791706226243870576, guid: 87e45dbf9dbf66c4a82250b7fadf474b, type: 3}
+  m_PrefabInstance: {fileID: 1863966677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1334921572 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2249257515290155919, guid: 87e45dbf9dbf66c4a82250b7fadf474b, type: 3}
+  m_PrefabInstance: {fileID: 1863966677}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1364429310
 GameObject:
   m_ObjectHideFlags: 0
@@ -3271,6 +3341,14 @@ PrefabInstance:
     - target: {fileID: 344160406896742310, guid: 87e45dbf9dbf66c4a82250b7fadf474b, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791706226243870576, guid: 87e45dbf9dbf66c4a82250b7fadf474b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2249257515290155919, guid: 87e45dbf9dbf66c4a82250b7fadf474b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2385938856860405894, guid: 87e45dbf9dbf66c4a82250b7fadf474b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -45490,6 +45568,9 @@ MonoBehaviour:
   fixedMachine: {fileID: 5705805113278111491}
   portalGun: {fileID: 0}
   portalGunParent: {fileID: 0}
+  portalGunEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8174779192757676074
 GameObject:
   m_ObjectHideFlags: 0

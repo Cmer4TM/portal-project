@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Machine : MonoBehaviour
 {
     public GameObject fixedMachine;
     public Transform portalGun;
     public Transform portalGunParent;
+    public UnityEvent portalGunEvent;
 
     public void Fix()
     {
@@ -19,5 +21,7 @@ public class Machine : MonoBehaviour
         portalGun.parent = portalGunParent;
         portalGun.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         portalGun.localScale = Vector3.one;
+
+        portalGunEvent?.Invoke();
     }
 }
