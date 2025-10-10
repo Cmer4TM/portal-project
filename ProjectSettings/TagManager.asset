@@ -8,6 +8,8 @@ TagManager:
   - Mission
   - Cutscene
   - Portal Gun
+  - Placeable
+  - Teleport
   layers:
   - Default
   - TransparentFX

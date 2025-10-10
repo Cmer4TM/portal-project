@@ -52,6 +52,9 @@ public class PlayerMovement : MonoBehaviour
         }
         else fallSpeed += GRAVITY * Time.deltaTime;
 
+        animator.SetBool("Grounded", controller.isGrounded);
+        animator.SetFloat("Fall Speed", fallSpeed == -Mathf.Sqrt(-GRAVITY) ? 0 : fallSpeed);
+
         Vector3 direction = transform.right * move.x + transform.forward * move.y;
         if (direction.magnitude > 1) direction.Normalize();
 

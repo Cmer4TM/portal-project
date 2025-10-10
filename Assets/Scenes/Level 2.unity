@@ -2203,6 +2203,7 @@ GameObject:
   - component: {fileID: 114865453}
   - component: {fileID: 114865452}
   - component: {fileID: 114865451}
+  - component: {fileID: 114865457}
   - component: {fileID: 114865450}
   - component: {fileID: 114865449}
   - component: {fileID: 114865448}
@@ -2563,6 +2564,23 @@ Transform:
   - {fileID: 1474328957}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114865457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114865447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac0d0d88b573a348bfdf59176f20ebb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 1682110913}
+  bluePortalPrefab: {fileID: 5375491355076960813, guid: 9bad6f0927613a04c9e5fdb5987052c6, type: 3}
+  redPortalPrefab: {fileID: 2959351954844154234, guid: 2038784b5c7ba4e4b8d72ebb22f8a2cb, type: 3}
+  portalOffset: {x: 0.9, y: 0.9}
+  playerTeleportOffset: {x: 0, y: -0.9, z: 0.25}
 --- !u!1 &115451058
 GameObject:
   m_ObjectHideFlags: 0
