@@ -1,4 +1,3 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerInteractable : MonoBehaviour
@@ -50,6 +49,7 @@ public class PlayerInteractable : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Teleport") == false) return;
+        if (bluePortal == null || redPortal == null) return;
 
         Transform source = other.transform.parent;
         GameObject target = source.name == "Red Portal" ? bluePortal : redPortal;
