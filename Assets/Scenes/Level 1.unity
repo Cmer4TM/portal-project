@@ -14098,10 +14098,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 1213652427970100008}
-  bluePortalPrefab: {fileID: 5375491355076960813, guid: 9bad6f0927613a04c9e5fdb5987052c6, type: 3}
-  redPortalPrefab: {fileID: 2959351954844154234, guid: 2038784b5c7ba4e4b8d72ebb22f8a2cb, type: 3}
+  bluePortalPrefab: {fileID: 3435608589692103382, guid: 9bad6f0927613a04c9e5fdb5987052c6, type: 3}
+  redPortalPrefab: {fileID: 3956800887420252253, guid: 2038784b5c7ba4e4b8d72ebb22f8a2cb, type: 3}
   portalOffset: {x: 0.9, y: 0.9}
-  playerTeleportOffset: {x: 0, y: -0.9, z: 0.25}
+  playerTeleportOffset: {x: 0, y: -0.9, z: 0.3}
 --- !u!1 &1995909725619494677
 GameObject:
   m_ObjectHideFlags: 0
